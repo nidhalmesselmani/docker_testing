@@ -1,0 +1,54 @@
+stops all the containers=docker stop $(docker ps -a -q)
+remove all the docker containers=docker rm $(docker ps -a -q)
+pull an image from docker hub = docker pull ubuntu:14.04 (latest for latest version)
+returns the hostname of the container = docker exec f64a1c5015f3 hostname 
+return the release of the container = docker exec f64a1c5015f3 ls_release
+enter the container = docker attach {container id}
+commit an image = docker commit 45180a8a3320 ubuntu:python
+see the history of an image (see the layers) = docker image history ubuntu:python
+inspect the image (information in regards of the image) = docker inspect ubuntu:python
+remove unused images = docker image prune
+to see what the container did = docker logs container_id (-f to follow)
+sending an environment variable= docker run -d -it --name test1 -e MYSQL_PASSWORD='SecurePassword' ubuntu:14.04 bash
+get env variables of a container = docker exec a44570e82fc5 env  
+mapping storage volume to a container = docker run -it -d --name=db1 -v C:\Docker\docker_testing/data:/~/data ubuntu:14.04 
+port mapping for webserver containers = docker run -d --name web01 --hostname web01 -p 8000:80 nginx
+test if the webserver is working = curl 127.0.0.1:8000
+restart a container: docker restart web01
+stop container: docker stop web01
+get the docker status and how much resources they are using = docker stats 
+docker inspect examples:
+docker inspect  web01 
+docker inspect -f '{{.Config.Image}}' web01
+docker inspect -f '{{.Config.Env}}' web01
+advanced inspect: docker inspect -f '{{range  .NetworkSettings.Networks}} MAC:{{.MacAddress}}  IP Address:{{.IPAddress}}  {{end}}' web01  
+neworking 
+docker network create backend 
+docker network connect backend db1 
+docker network inspect backend
+ping a container to another container: docker exec web01 ping db1
+docker exec db1 curl web01
+create a container and assigned to the frontend network: docker run -d -it --network frontend --name proxy1 ubuntu:14.04  
+docker run -it -d --hostname webserv1 --name webserv1 -p 80:5000 ubuntu:flask  
+
+
+docker-compose
+docker-compose logs
+docker-compose images
+docker-compose ps
+docker-compose up
+docker-compose up --scale redis=4  (scalling)
+docker swarm init --advertise-adr ip-addr  
+
+
+docker swarm init  
+docker node ls 
+
+ docker node ps docker-desktop
+docker service ps pingdocker
+docker service scale pingdocker=6
+docker node ps node_name 
+docker service create --name pingdocker ubuntu:14.04
+
+
+  
